@@ -1,4 +1,4 @@
-@extends('layouts.panel',['activeMenu' => 'forms','activeSubMenu' => 'wadah.create'])
+@extends('layouts.panel')
 
 @section('hstyles')
     <link rel="stylesheet" href="{{ asset('cpanel/vendor/bootstrap-datetimepicker/tempusdominus-bootstrap-4.min.css') }}" />
@@ -10,12 +10,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>{{ @$info ? 'Edit' : 'Create' }} Wadah Sampah <small></small></h1>
+                <h1>{{ @$info ? 'Ubah' : 'Tambah' }} Wadah Sampah <small></small></h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ site_url('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">{{ @$info ? 'Edit' : 'Create' }} Wadah Sampah</li>
+                    <li class="breadcrumb-item"><a href="{{ site_url('beranda') }}">Beranda</a></li>
+					<li class="breadcrumb-item"><a href="{{ site_url('wadah') }}">Wadah Sampah</a></li>
+					<li class="breadcrumb-item active">{{ @$info ? 'Ubah' : 'Tambah' }} Wadah Sampah</li>
                 </ol>
             </div>
         </div>
@@ -25,7 +26,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <form role="form" action="{{ @$info ? site_url('wadah/update'.@$info->id) : site_url('wadah/store') }}" enctype="multipart/form-data" method="POST">
+        <form role="form" action="{{ @$info ? site_url('wadah/update'.@$info->kode_seri) : site_url('wadah/store') }}" enctype="multipart/form-data" method="POST">
             <div class="row">
                 <!-- left column -->
                 <div class="col-md-12">
@@ -44,34 +45,38 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="title">Jenis Wadah</label>
-                                        <select class="form-control" name="jenis_wadah" id="">
-                                            <option value="besar">Besar</option>
-                                            <option value="sedang">Sedang</option>
-                                            <option value="kecil">Kecil</option>
-                                        </select>
+									<div class="form-group">
+                                        <label for="Kode">Kode Seri *</label>
+                                        <input type="text" class="form-control" name="kode_seri" placeholder="Kode Seri" value="{{ @$info ? @$info->kode_seri : generate_sn() }}" readonly>
                                     </div>
 									<div class="form-group">
-                                        <label for="lokasi">Kapasitas</label>
-                                        <input type="text" class="form-control" name="lokasi" placeholder="Lokasi Wadah" value="{{ @$info->lokasi }}">
+										<label for="title">Ukuran</label>
+										<select class="form-control" name="ukuran" id="">
+											<option value="Besar" {{ (@$info->ukuran=="Besar") ? 'selected' : '' }}>Besar</option>
+											<option value="Sedang" {{ (@$info->ukuran=="Sedang") ? 'selected' : '' }}>Sedang</option>
+											<option value="Kecil" {{ (@$info->ukuran=="Kecil") ? 'selected' : '' }}>Kecil</option>
+										</select>
+									</div>
+									<div class="form-group">
+                                        <label for="kapasitas">Kapasitas</label>
+                                        <input type="text" class="form-control" name="kapasitas" placeholder="Kapasitas Wadah (volume)" value="{{ @$info->kapasitas }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="lokasi">Lokasi</label>
-                                        <input type="text" class="form-control" name="lokasi" placeholder="Lokasi Wadah" value="{{ @$info->lokasi }}">
+                                        <input type="text" class="form-control" name="lokasi" placeholder="Lokasi Wadah (nama)" value="{{ @$info->lokasi }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="title">Status</label>
-                                        <select class="form-control" name="status" id="">
-                                            <option value="siap">Siap</option>
-                                            <option value="pemeliharaan">Pemeliharaan</option>
-                                            <option value="belum">Belum</option>
+                                        <label for="status">Status</label>
+                                        <select class="form-control" name="status">
+                                            <option value="Siap" {{ (@$info->status=="Siap") ? 'selected' : '' }}>Siap</option>
+                                            <option value="Pemeliharaan" {{ (@$info->status=="Pemeliharaan") ? 'selected' : '' }}>Pemeliharaan</option>
+                                            <option value="Belum Siap" {{ (@$info->status=="Belum Siap") ? 'selected' : '' }}>Belum</option>
                                         </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Kode">Kode Seri *</label>
-                                        <input type="text" class="form-control" name="kode_seri" placeholder="Kode Seri" value="{{ @$info ? @$info->serial_number : generate_sn() }}" readonly>
-                                    </div>
+									</div>
+									<div class="form-group">
+										<label for="info_tambahan">Informasi Tambahan</label>
+										<textarea class="form-control" name="info_tambahan" placeholder="Informasi Tambahan">{{ @$info->info_tambahan }}</textarea>
+									</div>
                                 </div>
                             </div>
                         </div>

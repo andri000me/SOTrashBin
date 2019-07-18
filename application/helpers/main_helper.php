@@ -11,7 +11,7 @@ if ( ! function_exists('asset'))
 	}
 }
 
-if ( ! function_exists('generate_sn'))
+if (!function_exists('generate_sn'))
 {
 	function generate_sn()
 	{
