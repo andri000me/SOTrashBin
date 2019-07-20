@@ -26,27 +26,31 @@
 	<!-- Info boxes -->
 	<div class="row">
 		<div class="col-12 col-sm-6 col-md-3">
+			<div class="info-box mb-3">
+				<span class="info-box-icon bg-success elevation-1"><i class="fa fa-calendar-o"></i></span>
+
+				<div class="info-box-content">
+					<span class="info-box-text">Tanggal Sekarang</span>
+					@php
+					$datetime = new DateTime();
+					$date = $datetime->format('Y-m-d');	
+					@endphp
+					<span class="info-box-number">{{ time_beautifier_now() }}</span>
+				</div>
+				<!-- /.info-box-content -->
+			</div>
+			<!-- /.info-box -->
+		</div>
+
+		<div class="col-12 col-sm-6 col-md-3">
 			<div class="info-box">
 				<span class="info-box-icon bg-info elevation-1"><i class="fa fa-gear"></i></span>
 
 				<div class="info-box-content">
 					<span class="info-box-text">Tempat Sampah</span>
 					<span class="info-box-number">
-						1 Aktif <-> 3 Total
+						{{ $wadah_aktif }} Aktif <-> {{ $wadah }} Total
 					</span>
-				</div>
-				<!-- /.info-box-content -->
-			</div>
-			<!-- /.info-box -->
-		</div>
-		<!-- /.col -->
-		<div class="col-12 col-sm-6 col-md-3">
-			<div class="info-box mb-3">
-				<span class="info-box-icon bg-danger elevation-1"><i class="fa fa-signal"></i></span>
-
-				<div class="info-box-content">
-					<span class="info-box-text">Status</span>
-					<span class="info-box-number">(Aman, Peringatan, 1 Penuh)</span>
 				</div>
 				<!-- /.info-box-content -->
 			</div>
@@ -59,16 +63,22 @@
 
 		<div class="col-12 col-sm-6 col-md-3">
 			<div class="info-box mb-3">
-				<span class="info-box-icon bg-success elevation-1"><i class="fa fa-calendar-o"></i></span>
+				<span class="info-box-icon bg-danger elevation-1"><i class="fa fa-signal"></i></span>
 
 				<div class="info-box-content">
-					<span class="info-box-text">Tanggal Sekarang</span>
-					<span class="info-box-number">Selasa, 18 Juni 2019</span>
+					<span class="info-box-text">Status Aktif Wadah</span>
+					@if($wadah_info)
+					<span class="info-box-number"><a href="{{ site_url('info/wadah') }}">{{ $wadah_info }} Wadah Warning</a></span>
+					@else
+					<span class="info-box-number">Aman</span>
+					@endif
 				</div>
 				<!-- /.info-box-content -->
 			</div>
 			<!-- /.info-box -->
 		</div>
+		<!-- /.col -->
+
 		<!-- /.col -->
 		<div class="col-12 col-sm-6 col-md-3">
 			<div class="info-box mb-3">
@@ -76,7 +86,7 @@
 
 				<div class="info-box-content">
 					<span class="info-box-text">Riwayat Aksi</span>
-					<span class="info-box-number">5 Info</span>
+					<span class="info-box-number">{{ $aktifitas_log }} Info</span>
 				</div>
 				<!-- /.info-box-content -->
 			</div>
@@ -89,25 +99,16 @@
 		<div class="col-12">
 			@if(@$info)
 			<div class="card">
-				<!-- /.card-header -->
+				<div class="card-header">
+                    <h3 class="card-title">Tabel Seluruh Aktifitas</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fa fa-times"></i></button>
+                    </div>
+                </div>
 				<div class="card-body">
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="row float-right">
-								<label for="filter">
-									<select id="table-data-filter-column" class="form-control form-control-sm">
-										<option>Kode Seri</option>
-										<option>Jarak</option>
-										<option>Level</option>
-										<option>Kelembapan</option>
-										<option>Suhu</option>
-										<option>Berat</option>
-										<option>Waktu Daftar</option>
-									</select>
-								</label>
-							</div>
-						</div>
-					</div>
 					<div class="row">
 						<table id="table-data" class="table table-bordered table-striped text-center table-responsive-sm">
 							<thead>
@@ -122,15 +123,18 @@
 								</tr>
 							</thead>
 							<tbody>
+								@php
+									$i = 1;
+								@endphp
 								@foreach($info as $info_data)
 								<tr>
-									<td>{{ $info_data->id }}</td>
+									<td>{{ $i++ }}</td>
 									<td>{{ $info_data->kode_seri }}</td>
-									<td>{{ $info_data->jarak }}</td>
-									<td>{{ $info_data->level }}</td>
-									<td>{{ $info_data->kelembapan }}</td>
-									<td>{{ $info_data->suhu }}</td>
-									<td>{{ $info_data->berat }}</td>
+									<td>{{ $info_data->jarak }}cm</td>
+									<td>{{ $info_data->level }}%</td>
+									<td>{{ $info_data->kelembapan }}%</td>
+									<td>{{ $info_data->suhu }}°</td>
+									<td>{{ $info_data->berat }}g</td>
 								</tr>
 								@endforeach
 							</tbody>
@@ -157,8 +161,8 @@
 
 @section('fscripts')
 <!-- DataTables -->
-<script src="{{ asset('admin/vendor/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ asset('cpanel/vendor/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('cpanel/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
 <!-- Page Script -->
 <script>
 $(document).ready(function() {
@@ -177,7 +181,7 @@ $(document).ready(function() {
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
+                        '<tr class="group"><td colspan="6"><b>'+group+'</b></td></tr>'
                     );
 
                     last = group;

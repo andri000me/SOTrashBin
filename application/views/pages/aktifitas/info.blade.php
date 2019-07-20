@@ -11,12 +11,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Data Wadah Sampah</h1>
+                <h1>Data Info Aktif Wadah</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ site_url('beranda') }}">Beranda</a></li>
-                    <li class="breadcrumb-item active">Data Wadah Sampah</li>
+                    <li class="breadcrumb-item active">Info Aktif Wadah</li>
                 </ol>
             </div>
         </div>
@@ -29,7 +29,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Wadah Sampah</h3>
+                    <h3 class="card-title">Info Aktif Wadah</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fa fa-minus"></i></button>
@@ -39,11 +39,8 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <div class="row">
-						<div class="col-md-6">
-							<a href="{{ site_url('wadah/create') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Tambah Wadah</a>
-						</div>
-                        <div class="col-md-6">
+					<div class="row">
+                        <div class="col-md-12">
                             <div class="float-right">
                                 <label for="filter">
                                     <select id="table-data-filter-column" class="form-control form-control-sm">
@@ -78,9 +75,7 @@
 									<td>{{ $info_data->lokasi }}</td>
 									<td>{{ $info_data->status }}</td>
 									<td>
-										<a href="{{ site_url('wadah/show/'.$info_data->kode_seri) }}" class="btn btn-info btn-xs"><i class="fa fa-eye"></i> Tampil</a> | 
-										<a href="{{ site_url('wadah/edit/'.$info_data->kode_seri) }}" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i> Ubah</a> | 
-										<a href="{{ site_url('wadah/destroy/'.$info_data->kode_seri) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Hapus</a>
+										<a href="{{ site_url('info/wadah/'.$info_data->kode_seri) }}" class="btn btn-info btn-xs"><i class="fa fa-eye"></i> Tampil</a>
                                     </td>
 								</tr>
 								@endforeach

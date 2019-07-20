@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pengguna extends CI_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		if (empty($this->session->username)) {
+			redirect('auth/login');
+		}
+	}
+
 	public function index()
 	{
 		$data_get = $this->pengguna_model->get_list();

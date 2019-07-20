@@ -39,26 +39,18 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="row">
-								<div class="col-sm-6">
-									<div class="row">
-										<a href="{{ site_url('pengguna/create') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Tambah Pengguna</a>
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="row float-right">
-										<label for="filter">
-											<select id="table-data-filter-column" class="form-control form-control-sm">
-												<option>NIP</option>
-												<option>Nama Lengkap</option>
-												<option>Jabatan</option>
-												<option>Username</option>
-											</select>
-										</label>
-									</div>
-								</div>
+					<div class="row">
+						<div class="col-md-6">
+							<a href="{{ site_url('pengguna/create') }}" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> Tambah Pengguna</a>
+						</div>
+                        <div class="col-md-6">
+                            <div class="float-right">
+                                <label for="filter">
+                                    <select id="table-data-filter-column" class="form-control form-control-sm">
+										<option>Username</option>
+										<option>Nama Lengkap</option>
+                                    </select>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -101,50 +93,17 @@
 
 @section('fscripts')
 <!-- DataTables -->
-<script src="{{ asset('admin/vendor/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ asset('cpanel/vendor/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('cpanel/vendor/datatables/dataTables.bootstrap4.js') }}"></script>
 <!-- Page Script -->
 <script>
 $(document).ready(function() {
-    var groupColumn = 1;
-    var table = $('#table-data').DataTable({
-        "columnDefs": [
-            { "visible": false, "targets": groupColumn }
-        ],
-        "order": [[ groupColumn, 'asc' ]],
-        "displayLength": 25,
-        "drawCallback": function ( settings ) {
-            var api = this.api();
-            var rows = api.rows( {page:'current'} ).nodes();
-            var last=null;
-
-            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
-                if ( last !== group ) {
-                    $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="7"><b>'+group+'</b></td></tr>'
-                    );
-
-                    last = group;
-                }
-            } );
-        }
-    } );
+    var table = $('#table-data').DataTable();
 
     $('.dataTables_filter input').unbind().bind('keyup', function() {
         var colIndex = document.querySelector('#table-data-filter-column').selectedIndex;
-        table.column( colIndex).search( this.value ).draw();
+        table.column(colIndex).search(this.value).draw();
     });
-
-    // Order by the grouping
-    $('#table-data tbody').on( 'click', 'tr.group', function () {
-        var currentOrder = table.order()[0];
-        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
-            table.order( [ groupColumn, 'desc' ] ).draw();
-        }
-        else {
-            table.order( [ groupColumn, 'asc' ] ).draw();
-        }
-    } );
 } );
 </script>
 @endsection
